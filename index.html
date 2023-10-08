@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phyu Sin Thu</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/addons/p5.sound.min.js"></script>
+</head>
+
+
+<body>
+    <header></header>
+
+    <div id="button_container" class="button_container">
+        <button id="pink"><img src="Images/pink.jpeg" alt="" width = "200" height = "250"></button>
+        <button id="blue"><img src="Images/blue.jpeg" alt="" width = "200" height = "250"></button>
+        <button id="red"><img src="Images/red.jpeg" alt="" width = "200" height = "250"></button>
+        <button id="orange"><img src="Images/orange.jpeg" alt="" width = "200" height = "250"></button>
+        <button id="green"><img src="Images/green.jpeg" alt="" width = "200" height = "250"></button>
+        <button id="black"><img src="Images/black.jpeg" alt="" width = "200" height = "250"></button>
+    </div>
+
+    <div class="container">
+    </div>
+
+    <div id="p5_loading">
+        <p>Loading Sounds</p>
+    </div>
+
+</body>
+
+<script> 
+
+    let buttons = document.getElementById("button_container").children;
+
+
+    let currentWave = 'pink';
+    let showCanvas = false;
+
+    for (let i = 0; i < buttons.length; i++) {
+        const button = buttons[i];
+        button.addEventListener("click", function() {
+            currentWave = button.getAttribute('id');
+            const main = document.querySelector("main");
+            main.style.transform = 'translateX(100vw)';
+            showCanvas = true;
+        });
+    }
+
+    let _red;
+    let _green;
+    let _orange;
+    let _pink;
+    let _black;
+    let _blue;
+    let _currentTrack;
+
+    function preload() {
+        _red = loadSound('/audio/red.mp3');
+        _green = loadSound('/audio/green.mp3');
+        _orange = loadSound('/audio/orange.mp3');
+        _pink = loadSound('/audio/red.mp3');
+        _black = loadSound('/audio/green.mp3');
+        _blue = loadSound('/audio/orange.mp3');
+    }
+
+    function setup() {
+        const canvas = createCanvas(window.innerWidth, window.innerHeight, WEBGL);
+        canvas.mouseClicked(reset);
+        angleMode(DEGREES);
+        _currentTrack = _pink;
+    }
+    
+    function draw() {
+        background(0);
+
+        if (currentWave === 'pink') {
+            playAudio(_pink, [_red, _green, _orange, _black, _blue]);
+            rotateX(60);
+            noFill();
+            stroke(255, 51, 204);
+            
+            for (var i = 0; i < 50; i++){
+                var r = map(sin(frameCount), -1, 1, 0, 255);
+                var g = map(i, 0, 20, 0, 255);
+                var b = map(cos(frameCount), -1, 1, 255, 0);
+                
+                beginShape()
+                    for (var j = 0; j < 360; j+= 10){
+                        var rad = i * 3;
+                        var x = rad * cos(j);
+                        var y = rad * sin(j);
+                        var z = sin(frameCount + i * 8) * 50;
+                        vertex(x, y, z);
+                    }
+                endShape(CLOSE);
+            }
+        }
+        else if (currentWave === 'blue') {
+            playAudio(_blue, [_red, _green, _orange, _black, _pink]);
+            rotateX(60);
+            noFill();
+            stroke(0, 51, 204);
+            
+            for (var i = 0; i < 50; i++){         
+                var r = map(sin(frameCount), -1, 1, 0, 255);
+                var g = map(i, 0, 20, 0, 255);
+                var b = map(cos(frameCount), -1, 1, 255, 0);
+                
+                beginShape()
+                    for (var j = 0; j < 360; j+= 70) {
+                        var rad = i * 3;
+                        var x = rad * cos(j);
+                        var y = rad * sin(j);
+                        var z = sin(frameCount + i * 2) * 180;
+                        vertex(x, y, z);
+                    }
+                endShape(CLOSE);
+            }
+        }
+        else if (currentWave === 'red') {
+            playAudio(_red, [_blue, _green, _orange, _black, _pink]);
+            rotateX(200);
+            noFill();
+            stroke(230,0,0);
+            
+            for (var i = 0; i < 50; i++) {   
+                var r = map(sin(frameCount), -1, 1, 0, 255);
+                var g = map(i, 0, 20, 0, 255);
+                var b = map(cos(frameCount), -1, 1, 255, 0);     
+                
+                beginShape()
+                    for (var j = 0; j < 360; j+= 10){
+                        var rad = i * 3;
+                        var x = rad * cos(j);
+                        var y = rad * sin(j);
+                        var z = sin(frameCount + i * 25) * 20;
+                        vertex(x, y, z);
+                    };
+                endShape(CLOSE);
+            };
+        }
+        else if (currentWave === 'green') {
+            playAudio(_green, [_blue, _red, _orange, _black, _pink]);
+            rotateX(frameCount);
+            noFill();
+            stroke(41, 163, 41);
+            
+            for (var i = 0; i < 70; i++){       
+                var r = map(sin(frameCount), -1, 1, 100, 200);
+                var g = map(i, 0, 50, 100, 200);
+                var b = map(cos(frameCount), -1, 1, 200, 100);
+                
+                beginShape()
+                for (var j = 0; j < 360; j+= 90){
+                    var rad = i * 3;
+                    var x = rad * cos(j);
+                    var y = rad * sin(j);
+                    var z = sin(frameCount + i * 15) * 6;
+                    vertex(x, y, z);
+                };
+                endShape(CLOSE);
+            };
+        }
+        else if (currentWave === 'orange') {
+            playAudio(_orange, [_blue, _red, _green, _black, _pink]);
+            rotateX(70);
+            noFill();
+            stroke(255, 153, 0);
+            
+            for (var i = 0; i < 70; i++) {
+                var r = map(sin(frameCount), -1, 1, 0, 255);
+                var g = map(i, 0, 20, 0, 255);
+                var b = map(cos(frameCount), -1, 1, 255, 0);
+                
+                beginShape()
+                    for (var j = 0; j < 360; j+= 30) {
+                        var rad = i * 3;
+                        var x = rad * cos(j);
+                        var y = rad * sin(j);
+                        var z = sin(frameCount + i * 20) * 2;
+                        vertex(x, y, z);
+                    };
+                endShape(CLOSE);
+            };
+        }
+        else {
+            playAudio(_black, [_blue, _red, _green, _orange, _pink]);
+            rotateX(69);
+            noFill();
+            stroke(255);
+
+            for (var i = 0; i < 50; i++){
+                var r = map(sin(frameCount), -1, 1, 100, 200);
+                var g = map(i, 0, 50, 100, 200);
+                var b = map(cos(frameCount), -1, 1, 200, 100);
+                       
+                beginShape()
+                    for (var j = 0; j < 360; j+= 180){
+                        var rad = i * 3;
+                        var x = rad * cos(j);
+                        var y = rad * sin(j);
+                        var z = sin(frameCount + i * 7) * 60;
+                        vertex(x, y, z);               
+                    }
+                endShape(CLOSE);
+            }
+        }
+    }
+
+    function reset() {
+        if (showCanvas) {
+            _currentTrack.stop();
+            const main = document.querySelector("main");
+            main.style.transform = 'translateX(0px)';
+            showCanvas = false;
+        }
+    }
+
+    function playAudio(playMe, pause) {
+        if (showCanvas && !_currentTrack.isPlaying()) {
+            _currentTrack = playMe;
+            pause.forEach((sound) => {
+                sound.stop();
+            })
+            _currentTrack.play();
+        }
+    }
+</script>
+
+</html>
