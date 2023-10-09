@@ -25,6 +25,10 @@ margin-right: auto;
 
 body {
   background-color:black;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  
 }
 
 .container, .button_container {
